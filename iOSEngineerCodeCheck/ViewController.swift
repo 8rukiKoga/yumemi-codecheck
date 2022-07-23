@@ -24,6 +24,7 @@ class ViewController: UITableViewController, UISearchBarDelegate {
         // Do any additional setup after loading the view.
         SchBr.text = "GitHubのリポジトリを検索できるよー"
         SchBr.delegate = self
+        print("Hello, world.")
     }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
