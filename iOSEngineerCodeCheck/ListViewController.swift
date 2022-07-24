@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController, UISearchBarDelegate {
+class ListViewController: UITableViewController, UISearchBarDelegate {
 
     @IBOutlet weak var SchBr: UISearchBar!
     
@@ -22,25 +22,31 @@ class ViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        // 検索バーテキストの初期値
         SchBr.text = "GitHubのリポジトリを検索できるよー"
         SchBr.delegate = self
-        print("Hello, world.")
     }
     
+    // 検索バーがタップされたときの動作
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // ↓こうすれば初期のテキストを消せる
         searchBar.text = ""
+        // 編集可と返す
         return true
     }
     
+    // 検索バーの中身が変わったときの動作
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // 検索の非同期処理をキャンセル
         task?.cancel()
     }
     
+    // 検索バーが押された時の動作
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        // word変数に入力された値を代入
         word = searchBar.text!
         
+        // もし検索バーに文字が入っていたら、その文字で検索
         if word.count != 0 {
             url = "https://api.github.com/search/repositories?q=\(word!)"
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
@@ -59,19 +65,22 @@ class ViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    // 遷移を検知
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "Detail"{
-            let dtl = segue.destination as! ViewController2
+            let dtl = segue.destination as! RepoDetailViewController
             dtl.vc1 = self
         }
         
     }
     
+    // テーブルに表示するセル数を設定
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return repo.count
     }
     
+    // テーブルに表示する情報を設定
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell()
@@ -83,6 +92,7 @@ class ViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    // セルが選択された時の動作を設定
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移時に呼ばれる
         idx = indexPath.row
