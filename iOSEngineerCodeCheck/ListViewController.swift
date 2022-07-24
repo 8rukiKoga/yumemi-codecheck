@@ -19,6 +19,9 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
     var url: String!
     var idx: Int!
     
+    // 検索バーのテキストがユーザーによってタイプされたものか判断
+    var isTypeStarted: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -44,10 +47,12 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
 
 // 検索バー
 extension ListViewController {
-    // 検索バーがタップされたときの動作
+    // 検索バーが最初にタップされたときの動作
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // ↓こうすれば初期のテキストを消せる
         searchBar.text = ""
+        // 検索バーの初期値が変更された(これ以降のテキストはユーザー次第)
+        isTypeStarted = true
         // 編集可と返す
         return true
     }
@@ -65,7 +70,9 @@ extension ListViewController {
         
         // もし検索バーに文字が入っていたら、その文字で検索
         if word.count != 0 {
-            url = "https://api.github.com/search/repositories?q=\(word!)"
+            // 日本語を日本語のまま検索するとnilが返ってくるので、キーワードをエンコードする
+            let encodedStr = word.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            url = "https://api.github.com/search/repositories?q=\(encodedStr!)"
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
                 // 検索結果をobjに、その中からタイトル・言語などがある"items"を取り出す
                 if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
@@ -88,18 +95,28 @@ extension ListViewController {
 extension ListViewController {
     // テーブルに表示するセル数を設定
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repo.count
+        if isTypeStarted && repo.isEmpty {
+            return 1
+        } else {
+            return repo.count
+        }
     }
     
     // テーブルに表示する情報を設定
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Repository", for: indexPath)
-        let rp = repo[indexPath.row]
-        // レポジトリ名・言語を表示
-        cell.textLabel?.text = rp["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
-        cell.tag = indexPath.row
+        // 検索ワードが初期値でなく、かつ検索ワードで見つからなかった場合
+        if isTypeStarted && repo.isEmpty {
+            cell.textLabel?.text = "Not Found"
+            cell.detailTextLabel?.text = ""
+        } else {
+            let rp = repo[indexPath.row]
+            // レポジトリ名・言語を表示
+            cell.textLabel?.text = rp["full_name"] as? String ?? ""
+            cell.detailTextLabel?.text = rp["language"] as? String ?? ""
+            cell.tag = indexPath.row
+        }
         return cell
         
     }
