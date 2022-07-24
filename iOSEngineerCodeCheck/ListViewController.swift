@@ -25,8 +25,25 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
         // 検索バーテキストの初期値
         SchBr.text = "GitHubのリポジトリを検索できるよー"
         SchBr.delegate = self
+        
+        // セルの高さを60に設定
+        tableView.rowHeight = 60
     }
     
+    // 遷移を検知
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "Detail"{
+            let dtl = segue.destination as! RepoDetailViewController
+            dtl.vc1 = self
+        }
+        
+    }
+    
+}
+
+// 検索バー
+extension ListViewController {
     // 検索バーがタップされたときの動作
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // ↓こうすれば初期のテキストを消せる
@@ -64,30 +81,25 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
         }
         
     }
-    
-    // 遷移を検知
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "Detail"{
-            let dtl = segue.destination as! RepoDetailViewController
-            dtl.vc1 = self
-        }
-        
-    }
-    
+}
+
+// リスト
+extension ListViewController {
     // テーブルに表示するセル数を設定
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repo.count
+        return 10
     }
     
     // テーブルに表示する情報を設定
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
-        let rp = repo[indexPath.row]
-        cell.textLabel?.text = rp["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
-        cell.tag = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Repository", for: indexPath)
+        cell.textLabel!.text = "タイトル"
+        cell.detailTextLabel!.text = "詳細"
+//        let rp = repo[indexPath.row]
+//        cell.textLabel?.text = rp["full_name"] as? String ?? ""
+//        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
+//        cell.tag = indexPath.row
         return cell
         
     }
@@ -99,5 +111,4 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
         performSegue(withIdentifier: "Detail", sender: self)
         
     }
-    
 }
