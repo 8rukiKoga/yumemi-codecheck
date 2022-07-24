@@ -67,17 +67,18 @@ extension ListViewController {
         if word.count != 0 {
             url = "https://api.github.com/search/repositories?q=\(word!)"
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
+                // 検索結果をobjに、その中からタイトル・言語などがある"items"を取り出す
                 if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
                     if let items = obj["items"] as? [[String: Any]] {
-                    self.repo = items
+                        self.repo = items
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
                     }
                 }
             }
-        // これ呼ばなきゃリストが更新されません
-        task?.resume()
+            // これ呼ばなきゃリストが更新されません
+            task?.resume()
         }
         
     }
@@ -87,19 +88,18 @@ extension ListViewController {
 extension ListViewController {
     // テーブルに表示するセル数を設定
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return repo.count
     }
     
     // テーブルに表示する情報を設定
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Repository", for: indexPath)
-        cell.textLabel!.text = "タイトル"
-        cell.detailTextLabel!.text = "詳細"
-//        let rp = repo[indexPath.row]
-//        cell.textLabel?.text = rp["full_name"] as? String ?? ""
-//        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
-//        cell.tag = indexPath.row
+        let rp = repo[indexPath.row]
+        // レポジトリ名・言語を表示
+        cell.textLabel?.text = rp["full_name"] as? String ?? ""
+        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
+        cell.tag = indexPath.row
         return cell
         
     }
