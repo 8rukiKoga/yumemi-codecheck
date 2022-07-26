@@ -26,7 +26,7 @@ class ListViewController: UITableViewController, UISearchBarDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         // 検索バーテキストの初期値
-        SchBr.text = "GitHubのリポジトリを検索できるよー"
+        SchBr.text = "GitHubのリポジトリを検索"
         SchBr.delegate = self
         
         // セルの高さを60に設定
@@ -73,6 +73,7 @@ extension ListViewController {
             // 日本語を日本語のまま検索するとnilが返ってくるので、キーワードをエンコードする
             let encodedStr = word.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             url = "https://api.github.com/search/repositories?q=\(encodedStr!)"
+            
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
                 // 検索結果をobjに、その中からタイトル・言語などがある"items"を取り出す
                 if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
@@ -95,6 +96,7 @@ extension ListViewController {
 extension ListViewController {
     // テーブルに表示するセル数を設定
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 検索ワードが初期値でなく、かつ検索ワードで見つからなかった場合
         if isTypeStarted && repo.isEmpty {
             return 1
         } else {
@@ -123,7 +125,7 @@ extension ListViewController {
     
     // セルが選択された時の動作を設定
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 画面遷移時に呼ばれる
+        // 画面遷移時にタップされたインデックスを代入して次のviewに渡す
         idx = indexPath.row
         performSegue(withIdentifier: "Detail", sender: self)
         
