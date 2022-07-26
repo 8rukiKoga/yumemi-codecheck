@@ -21,7 +21,7 @@ class RepoDetailViewController: UIViewController {
     @IBOutlet weak var FrksLbl: UILabel!
     @IBOutlet weak var IsssLbl: UILabel!
     
-    var vc1: ListViewController!
+    var vc1: MainViewController!
         
     override func viewDidLoad() {
         super.viewDidLoad()
