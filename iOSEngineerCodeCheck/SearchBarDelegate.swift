@@ -38,19 +38,31 @@ extension MainViewController: UISearchBarDelegate {
             url = "https://api.github.com/search/repositories?q=\(encodedStr!)"
             
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
-                // 検索結果をobjに、その中からタイトル・言語などがある"items"を取り出す
-                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-                    if let items = obj["items"] as? [[String: Any]] {
-                        self.repo = items
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
+                // APIが読み込めなかった時のためのエラーハンドリング
+                do {
+                    try self.takeOutData(data: data)
+                } catch {
+                    // エラーメッセージ
+                    print(err!)
                 }
             }
             // これ呼ばなきゃリストが更新されません
+            print("hello")
             task?.resume()
+        }
+    }
+    
+    func takeOutData(data: Data?) throws {
+        // 検索結果をobjに代入して、その中からタイトル・言語などがある"items"を取り出す
+        if let obj = try JSONSerialization.jsonObject(with: data!) as? [String: Any] {
+            if let items = obj["items"] as? [[String: Any]] {
+                self.repo = items
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
         }
         
     }
+    
 }
