@@ -24,18 +24,27 @@ class RepoDetailViewController: UIViewController {
     // ブックマークに追加するボタン
     @IBOutlet weak var bookmarkBtn: UIButton!
     
-    var mvc: MainViewController!
+    // このDetailViewで扱うデータ
+    var item: [String: Any]!
+    
+    var mvc: MainViewController?
+    var bmc: BookmarkViewController?
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        // インデックスのデータを受け取る
-        let repo = mvc.repo[mvc.idx]
+        // 遷移元からデータを受け取る
+        // mvcから遷移したならmvc、bmcから遷移したならbmcのデータを代入する
+        if mvc?.item != nil {
+            self.item = mvc?.item
+        } else {
+            self.item = bmc?.item
+        }
         // viewのテキストに代入
-        LangLbl.text = "Written in \(repo["language"] as? String ?? "")"
-        StrsLbl.text = "\(repo["stargazers_count"] as? Int ?? 0) stars"
-        WchsLbl.text = "\(repo["wachers_count"] as? Int ?? 0) watchers"
-        FrksLbl.text = "\(repo["forks_count"] as? Int ?? 0) forks"
-        IsssLbl.text = "\(repo["open_issues_count"] as? Int ?? 0) open issues"
+        LangLbl.text = "Written in \(item["language"] as? String ?? "")"
+        StrsLbl.text = "\(item["stargazers_count"] as? Int ?? 0) stars"
+        WchsLbl.text = "\(item["wachers_count"] as? Int ?? 0) watchers"
+        FrksLbl.text = "\(item["forks_count"] as? Int ?? 0) forks"
+        IsssLbl.text = "\(item["open_issues_count"] as? Int ?? 0) open issues"
         getImage()
         
         // ボタンの見た目を設定
@@ -52,11 +61,9 @@ class RepoDetailViewController: UIViewController {
     // 画像を入手
     func getImage(){
         
-        let repo = mvc.repo[mvc.idx]
-        
-        TtlLbl.text = repo["full_name"] as? String
+        TtlLbl.text = item["full_name"] as? String
         // avator_urlはownerの要素なので、そこから取り出す
-        if let owner = repo["owner"] as? [String: Any] {
+        if let owner = item["owner"] as? [String: Any] {
             if let imgURL = owner["avatar_url"] as? String {
                 URLSession.shared.dataTask(with: URL(string: imgURL)!) { (data, res, err) in
                     let img = UIImage(data: data!)!
@@ -71,7 +78,7 @@ class RepoDetailViewController: UIViewController {
     }
     
     @IBAction func tapBookmarkBtn(_ sender: Any) {
-        let item: [String: Any] = mvc.repo[mvc.idx]
+        let item: [String: Any] = self.item
         bookmarks.append(item)
     }
     

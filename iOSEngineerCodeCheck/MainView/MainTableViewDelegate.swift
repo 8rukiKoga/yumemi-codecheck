@@ -41,8 +41,7 @@ extension MainViewController {
     // セルが選択された時の動作を設定
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移時にタップされたインデックスを代入して次のviewに渡す
-        idx = indexPath.row
-        performSegue(withIdentifier: "Detail", sender: self)
-        
+        item = repo[indexPath.row]
+        performSegue(withIdentifier: "MainToDetail", sender: self)
     }
 }

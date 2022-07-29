@@ -11,10 +11,13 @@ import UIKit
 // ブックマークリストのグローバル変数
 var bookmarks: [[String: Any]] = []
 
-class BookmarkViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class BookmarkViewController: UIViewController {
     
     // テーブルビュー
     @IBOutlet weak var tableView: UITableView!
+    
+    // DetailViewに渡すアイテム
+    var item: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,33 +33,14 @@ class BookmarkViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.reloadData()
     }
     
-    // 表示するの数
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // ブックマークリストが空の場合
-        if bookmarks.isEmpty {
-            return 1
-        }
-        // ブックマークリストに要素がある場合
-        return bookmarks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Bookmark", for: indexPath)
+    // 遷移を検知
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        // ブックマークリストが空の場合
-        if bookmarks.isEmpty {
-            cell.textLabel?.text = "ブックマークが空です！"
-            cell.detailTextLabel?.text = ""
-            return cell
+        if segue.identifier == "BmToDetail"{
+            if let dtl = segue.destination as? RepoDetailViewController {
+                dtl.bmc = self
+            }
         }
-        // ブックマークリストに要素がある場合
-        let bookmark = bookmarks[indexPath.row]
-        // レポジトリ名・言語を表示
-        cell.textLabel?.text = bookmark["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = bookmark["language"] as? String ?? ""
-        cell.tag = indexPath.row
         
-        return cell
     }
-    
 }

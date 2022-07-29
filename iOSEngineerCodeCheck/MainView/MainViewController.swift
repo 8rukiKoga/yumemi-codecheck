@@ -17,7 +17,9 @@ class MainViewController: UITableViewController {
     var task: URLSessionTask?
     var word: String!
     var url: String!
-    var idx: Int!
+    
+    // DetailViewに渡すアイテム
+    var item: [String: Any] = [:]
     
     // 検索バーのテキストがユーザーによってタイプされたものか判断
     var isTypeStarted: Bool = false
@@ -36,7 +38,7 @@ class MainViewController: UITableViewController {
     // 遷移を検知
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "Detail"{
+        if segue.identifier == "MainToDetail"{
             if let dtl = segue.destination as? RepoDetailViewController {
                 dtl.mvc = self
             }
