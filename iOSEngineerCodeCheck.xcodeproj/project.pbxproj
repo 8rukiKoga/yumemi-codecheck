@@ -84,6 +84,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D29319428941E3E0091C8BC /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				BFD945E2244DC5E80012785A /* MainViewController.swift */,
+				0DDF31D7288F8F7100A7F1E1 /* SearchBarDelegate.swift */,
+				0DDF31D92890100000A7F1E1 /* TableViewDelegate.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		0D29319528941E4B0091C8BC /* RepoDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				BF0A658C244F2A3B00280FA6 /* RepoDetailViewController.swift */,
+			);
+			path = RepoDetailView;
+			sourceTree = "<group>";
+		};
+		0D29319628941E620091C8BC /* BookmarkView */ = {
+			isa = PBXGroup;
+			children = (
+				0DC98A822892B5C20062C555 /* BookmarkViewController.swift */,
+			);
+			name = BookmarkView;
+			sourceTree = "<group>";
+		};
 		BFD945D2244DC5E80012785A = {
 			isa = PBXGroup;
 			children = (
@@ -109,14 +135,12 @@
 			children = (
 				BFD945DE244DC5E80012785A /* AppDelegate.swift */,
 				BFD945E0244DC5E80012785A /* SceneDelegate.swift */,
-				BFD945E2244DC5E80012785A /* MainViewController.swift */,
-				0DDF31D7288F8F7100A7F1E1 /* SearchBarDelegate.swift */,
-				0DDF31D92890100000A7F1E1 /* TableViewDelegate.swift */,
-				BF0A658C244F2A3B00280FA6 /* RepoDetailViewController.swift */,
-				0DC98A822892B5C20062C555 /* BookmarkViewController.swift */,
 				BFD945E4244DC5E80012785A /* Main.storyboard */,
-				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
+				0D29319428941E3E0091C8BC /* MainView */,
+				0D29319528941E4B0091C8BC /* RepoDetailView */,
+				0D29319628941E620091C8BC /* BookmarkView */,
 				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
+				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
 				BFD945EC244DC5EB0012785A /* Info.plist */,
 			);
 			path = iOSEngineerCodeCheck;

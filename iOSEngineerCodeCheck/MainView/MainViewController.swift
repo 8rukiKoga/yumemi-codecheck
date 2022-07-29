@@ -38,7 +38,7 @@ class MainViewController: UITableViewController {
         
         if segue.identifier == "Detail"{
             if let dtl = segue.destination as? RepoDetailViewController {
-                dtl.vc1 = self
+                dtl.mvc = self
             }
         }
         

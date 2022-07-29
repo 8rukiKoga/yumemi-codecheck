@@ -24,12 +24,12 @@ class RepoDetailViewController: UIViewController {
     // ブックマークに追加するボタン
     @IBOutlet weak var bookmarkBtn: UIButton!
     
-    var vc1: MainViewController!
+    var mvc: MainViewController!
         
     override func viewDidLoad() {
         super.viewDidLoad()
         // インデックスのデータを受け取る
-        let repo = vc1.repo[vc1.idx]
+        let repo = mvc.repo[mvc.idx]
         // viewのテキストに代入
         LangLbl.text = "Written in \(repo["language"] as? String ?? "")"
         StrsLbl.text = "\(repo["stargazers_count"] as? Int ?? 0) stars"
@@ -52,7 +52,7 @@ class RepoDetailViewController: UIViewController {
     // 画像を入手
     func getImage(){
         
-        let repo = vc1.repo[vc1.idx]
+        let repo = mvc.repo[mvc.idx]
         
         TtlLbl.text = repo["full_name"] as? String
         // avator_urlはownerの要素なので、そこから取り出す
@@ -68,6 +68,11 @@ class RepoDetailViewController: UIViewController {
             }
         }
         
+    }
+    
+    @IBAction func tapBookmarkBtn(_ sender: Any) {
+        let item: [String: Any] = mvc.repo[mvc.idx]
+        bookmarks.append(item)
     }
     
 }
