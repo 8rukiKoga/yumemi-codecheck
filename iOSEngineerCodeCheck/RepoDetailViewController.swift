@@ -13,13 +13,16 @@ class RepoDetailViewController: UIViewController {
     @IBOutlet weak var ImgView: UIImageView!
     
     @IBOutlet weak var TtlLbl: UILabel!
-    
+
     @IBOutlet weak var LangLbl: UILabel!
     
     @IBOutlet weak var StrsLbl: UILabel!
     @IBOutlet weak var WchsLbl: UILabel!
     @IBOutlet weak var FrksLbl: UILabel!
     @IBOutlet weak var IsssLbl: UILabel!
+    
+    // ブックマークに追加するボタン
+    @IBOutlet weak var bookmarkBtn: UIButton!
     
     var vc1: MainViewController!
         
@@ -35,6 +38,15 @@ class RepoDetailViewController: UIViewController {
         IsssLbl.text = "\(repo["open_issues_count"] as? Int ?? 0) open issues"
         getImage()
         
+        // ボタンの見た目を設定
+        modifyBtnAppearance()
+    }
+    
+    // ボタンの見た目を設定
+    func modifyBtnAppearance() {
+        bookmarkBtn.layer.cornerRadius = 20
+        bookmarkBtn.layer.borderWidth = 1
+        bookmarkBtn.layer.borderColor = UIColor.link.cgColor
     }
     
     // 画像を入手
