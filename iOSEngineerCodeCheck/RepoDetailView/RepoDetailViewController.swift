@@ -23,10 +23,12 @@ class RepoDetailViewController: UIViewController {
     
     // ブックマークに追加するボタン
     @IBOutlet weak var bookmarkBtn: UIButton!
+    // すでにブックマークに追加されているかどうか
+    var isAdded: Bool?
     
     // このDetailViewで扱うデータ
     var item: [String: Any]!
-    
+    // 遷移元
     var mvc: MainViewController?
     var bmc: BookmarkViewController?
         
@@ -80,6 +82,11 @@ class RepoDetailViewController: UIViewController {
     @IBAction func tapBookmarkBtn(_ sender: Any) {
         let item: [String: Any] = self.item
         bookmarks.append(item)
+        
+        isAdded = true
+        bookmarkBtn.setTitle("Added", for: .normal)
+        bookmarkBtn.layer.backgroundColor = UIColor.link.cgColor
+        bookmarkBtn.tintColor = UIColor.white
     }
     
 }

@@ -47,7 +47,6 @@ extension MainViewController: UISearchBarDelegate {
                 }
             }
             // これ呼ばなきゃリストが更新されません
-            print("hello")
             task?.resume()
         }
     }
