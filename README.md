@@ -1,46 +1,33 @@
 # 株式会社ゆめみ iOS エンジニアコードチェック課題
 
-## 概要
-
-本プロジェクトは株式会社ゆめみ（以下弊社）が、弊社に iOS エンジニアを希望する方に出す課題のベースプロジェクトです。本課題が与えられた方は、下記の概要を詳しく読んだ上で課題を取り組んでください。
-
 ## アプリ仕様
 
-本アプリは GitHub のリポジトリーを検索するアプリです。
+仕様の機能に加え、Bookmarkの機能を搭載しました。
 
-![動作イメージ](README_Images/app.gif)
+![動作イメージ]
+[([README_Images/app.gif](https://user-images.githubusercontent.com/93827556/181872362-875678e1-e17c-4d06-a5b7-011eb3f17816.gif))](https://user-images.githubusercontent.com/93827556/181872362-875678e1-e17c-4d06-a5b7-011eb3f17816.gif)
 
-### 環境
+## アピールポイント
+コメントを多くし、可読性を意識しました。
 
-- IDE：基本最新の安定版（本概要更新時点では Xcode 13.0）
-- Swift：基本最新の安定版（本概要更新時点では Swift 5.5）
+仕様書にある昨日は全て実装した上で、ブックマーク機能を搭載しました。
+TabViewで検索タブとブックマークタブで切り替えられるようにしていますが、Viewを無駄に増やさないために、ブックマークタブからRepoDetailViewに遷移できるようにした
+
+## 開発時の悩みなど
+### 課題について
+* 「Issues-ソースコードの可読性の向上-命名規則, ネスト, インデント, スペースや改行」について、配布コードのどこが具体的に間違っていたのか見つけられなかったため、模範解答を見たい
+
+### 開発時の悩みについて
+
+### さらに実装したかったこと
+* RepoViewにあるAddToBookmarkボタンを押したときに、ブックマークリストにすでにあるデータなのかを判断して、ボタンのデザインを変更する(今の状態では、ただボタンが押されたときにデザインを変える仕様になっている)
+* ブックマークをデータベースに保存できるようにする
+* APIから取り出すデータの項目が多いので、APIを叩く時点で必要な項目(full_name, languageなど)だけを抽出し、動作を早くさせる
+
+## 質問したいこと
+* extensionではなく、別クラスとしてViewController内のTableViewなどのDelegateの操作をする方法はないか。
+* 他クラスから別クラスの変数の値を変更する方法はないか。今回はグローバル変数を使ってbookmarkリストを扱ったが、本来はBookmarkViewControllerの中に入れておきたかった。
+* 強制アンラップを使う意味は？初心者の自分から見たら、エラーの根源のように見え、使うのを躊躇してしまう。
+* メインのTableViewDelegateとブックマークのTableViewDelegateのような、同じようなコードを省略化できる方法はないか。
+* 
 - 開発ターゲット：基本最新の安定版（本概要更新時点では iOS 15.0）
-- サードパーティーライブラリーの利用：オープンソースのものに限り制限しない
-
-### 動作
-
-1. 何かしらのキーワードを入力
-2. GitHub API（`search/repositories`）でリポジトリーを検索し、結果一覧を概要（リポジトリ名）で表示
-3. 特定の結果を選択したら、該当リポジトリの詳細（リポジトリ名、オーナーアイコン、プロジェクト言語、Star 数、Watcher 数、Fork 数、Issue 数）を表示
-
-## 課題取り組み方法
-
-Issues を確認した上、本プロジェクトを [**Duplicate** してください](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository)（Fork しないようにしてください。必要ならプライベートリポジトリーにしても大丈夫です）。今後のコミットは全てご自身のリポジトリーで行ってください。
-
-コードチェックの課題 Issue は全て [`課題`](https://github.com/yumemi/ios-engineer-codecheck/milestone/1) Milestone がついており、難易度に応じて Label が [`初級`](https://github.com/yumemi/ios-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3A初級+milestone%3A課題)、[`中級`](https://github.com/yumemi/ios-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3A中級+milestone%3A課題+) と [`ボーナス`](https://github.com/yumemi/ios-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3Aボーナス+milestone%3A課題+) に分けられています。課題の必須／選択は下記の表とします：
-
-|   | 初級 | 中級 | ボーナス
-|--:|:--:|:--:|:--:|
-| 新卒／未経験者 | 必須 | 選択 | 選択 |
-| 中途／経験者 | 必須 | 必須 | 選択 |
-
-
-課題 Issueをご自身のリポジトリーにコピーするGitHub Actionsをご用意しております。  
-[こちらのWorkflow](./.github/workflows/copy-issues.yml)を[手動でトリガーする](https://docs.github.com/ja/actions/managing-workflow-runs/manually-running-a-workflow)ことでコピーできますのでご活用下さい。
-
-課題が完成したら、リポジトリーのアドレスを教えてください。
-
-## 参考記事
-
-提出された課題の評価ポイントに関しては、[こちらの記事](https://qiita.com/lovee/items/d76c68341ec3e7beb611)に詳しく書かれてありますので、ぜひご覧ください。
-ライブラリの利用に関しては [こちらの記事](https://qiita.com/ykws/items/b951a2e24ca85013e722)も参照ください。
