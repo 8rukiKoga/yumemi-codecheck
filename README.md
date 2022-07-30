@@ -4,8 +4,8 @@
 
 仕様の機能に加え、Bookmarkの機能を搭載しました。
 
-![動作イメージ]
-https://user-images.githubusercontent.com/93827556/181872362-875678e1-e17c-4d06-a5b7-011eb3f17816.gif
+動作イメージ
+[https://user-images.githubusercontent.com/93827556/181872362-875678e1-e17c-4d06-a5b7-011eb3f17816.gif]
 
 ## アピールポイント
 コメントを多くし、可読性を意識しました。
